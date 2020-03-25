@@ -1,0 +1,21 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: soaktestrs1
+spec:
+   replicas: 3
+   selector:
+     matchExpressions:
+       - {key: app, operator: In, values: [soaktestrs, soaktestrs1, rc1]}
+       - {key: environment, operator: In, values: [dev]} 
+   template:
+     metadata:
+       labels:
+         app: rc1
+         environment: dev
+     spec:
+       containers:
+       - name: soaktestrs
+         image: busybox
+         command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+---

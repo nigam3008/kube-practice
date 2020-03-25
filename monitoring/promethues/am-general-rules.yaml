@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: am-prom-general-rules
+  labels:
+    name: am-prom-general-rules
+  namespace: monitoring
+data:
+  am-general-rules.yml: |-
+    groups:
+    - name: example
+      rules:
+      - alert: DeadMansSwitch
+        annotations:
+          description: This is a DeadMansSwitch meant to ensure that the entire Alerting pipeline is functional.
+          summary: Alerting DeadMansSwitch
+        expr: vector(1)
+        labels:
+          severity: none    

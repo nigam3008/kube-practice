@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    env: prod
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    env: prod
+  name: nginx1
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    env: dev
+  name: nginx2
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    env: dev
+  name: nginx3
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    env: dev
+  name: nginx4
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+  restartPolicy: Never
+---

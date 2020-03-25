@@ -1,0 +1,47 @@
+#Create a Config Map and Secret | use them in a Pod
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: candy-service-config
+data:
+  candy.cfg: |-
+    candy.papeemint.power=100000
+    candy.nougat-armor.strength=100
+    candy.lemon.acceptability=0
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-password
+stringData:
+  password: myDBPassword
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  volumes:
+  - name: config-volume
+    configMap:
+      name: candy-service-config 
+  containers:
+  - name: my-pod
+    image: busybox
+    command: ['sh', '-c', "echo $printenv && sleep 3600"]
+    volumeMounts:
+      - name: config-volume
+        mountPath: /etc/candy-service
+    env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: db-password
+          key: password
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"

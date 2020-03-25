@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: am-server-conf
+  namespace: monitoring
+  labels:
+    name: am-server-conf
+data:
+  alertmanager.yml: |-
+  
+    global:
+      resolve_timeout: 5m
+    
+    route:
+      group_by: ['alertgroupname']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: 'alertmanager-test'
+      
+    receivers:
+    - name: 'alertmanager-test'
+      webhook_configs:
+      - url: 'https://webhook.site/d9f04786-802b-49a5-a3e0-4208ddd88f2d'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager-deployment
+  namespace: monitoring
+  labels:
+     app: alertmanager
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: alertmanager
+   template:
+      metadata:
+         labels:
+           app: alertmanager
+      spec:
+        containers:
+         - name: alertmanager
+           image: prom/alertmanager
+           args:
+             - "--config.file=/etc/alertmanager/alertmanager.yml"
+             - '--storage.path=/alertmanager'
+           volumeMounts:
+              - name: am-server-conf
+                mountPath: /etc/alertmanager/
+              - name: alertmanager
+                mountPath: /alertmanager
+           ports:
+           - containerPort: 9093
+        volumes:
+        - name: alertmanager
+          emptyDir: {}
+        - name: am-server-conf
+          configMap:
+            name: am-server-conf
+---

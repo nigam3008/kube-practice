@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: my-one
+    image: k8s.gcr.io/busybox
+    command: ["/bin/sh", "-c", "while true; do 'echo MY_ONE'; sleep 20; done"]
+    args:
+    - /bin/sh
+    - c
+    - touch /tmp/healthy; sleep 20; rm -rf /tmp/healthy; sleep 6000
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+  
+  - name: my-two
+    image: k8s.gcr.io/busybox
+    command: ["/bin/sh", "-c", "while true; do 'echo MY_ONE'; sleep 20; done"]
+    args:
+    - /bin/sh
+    - c
+    - touch /tmp/healthy; sleep 6000
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5    

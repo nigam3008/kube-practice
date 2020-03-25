@@ -1,0 +1,4 @@
+POD            NAME       CPU(cores)   MEMORY(bytes)   
+threebusybox   busybox2   0m           0Mi             
+threebusybox   busybox1   0m           0Mi             
+threebusybox   busybox3   0m           0Mi             

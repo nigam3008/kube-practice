@@ -1,0 +1,18 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hellocron
+spec:
+   schedule: "*/1 * * * *" #Runs every defined minutes
+   jobTemplate:
+      spec:
+         template:
+            spec:
+               containers:
+               - name: hellocron
+                 image: busybox
+                 args:
+                 - /bin/cat
+                 - /etc/os
+               restartPolicy: Never
+   suspend: false

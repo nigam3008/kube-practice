@@ -1,0 +1,47 @@
+##Test1: taint a node; do not add toleration and apply.
+##Test1: taint a node; add toleration and apply.  
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: soaktestrs1
+spec:
+   replicas: 2
+   selector:
+     matchExpressions:
+       - {key: app, operator: In, values: [soaktestrs, soaktestrs1, rc1]}
+       - {key: environment, operator: In, values: [dev]} 
+   template:
+     metadata:
+       labels:
+         app: rc1
+         environment: dev      
+     spec:
+        affinity:
+           podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                    matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                      - soaktestrs
+                      - soaktestrs1
+                      - rc1
+                    - key: environment
+                      operator: In
+                      values:
+                      - dev
+                      - qa
+                      - uat
+                      - pro
+                topologyKey: "kubernetes.io/hostname"
+        containers:
+        - name: soaktestrs
+          image: busybox
+          command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+        tolerations:
+        - key: "app"
+          operator: "Equal"
+          value: "rc1"
+          effect: "NoSchedule"
+---

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  volumes:
+  - name: vol1
+    emptyDir: {}
+  containers:
+  - image: nginx
+    name: nginx
+    volumeMounts:
+    - name: vol1
+      mountPath: /var/log
+    command: ['/bin/sh', '-c', "echo $key1 >> /var/log/a.log && sleep 3600"]
+    env:
+    - name: key1
+      valueFrom:
+        configMapKeyRef:
+          name: myconfig1
+          key: key1
+    - name: key2
+      valueFrom:
+        configMapKeyRef:
+          name: myconfig1
+          key: key2
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}

@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+   name: mem-limit-range
+spec:
+   limits:
+   - default:
+      memory: 512Mi
+      cpu: "200m"
+     defaultRequest:
+      memory: 256Mi
+      cpu: "200m"
+     max:
+      memory: 1Gi
+      cpu: "800m"
+     min:
+      memory: 128Mi
+      cpu: "200m"
+     type: Container
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-mem-demo
+spec:
+  containers:
+  - name: default-mem-demo-ctr
+    image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-mem-demo-2
+spec:
+  containers:
+  - name: default-mem-demo-2-ctr
+    image: nginx
+    resources:
+      limits:
+        memory: "1Gi"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-mem-demo-3
+spec:
+  containers:
+  - name: default-mem-demo-3-ctr
+    image: nginx
+    resources:
+      requests: #minimum assignement
+        memory: "128Mi"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-mem-demo-4
+spec:
+  containers:
+  - name: default-mem-demo-4-ctr
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+      requests:
+        memory: "128Mi"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-mem-demo-5
+spec:
+  containers:
+  - name: default-mem-demo-5-ctr
+    image: nginx
+    resources:
+      limits:
+        memory: "2Gi"
+      requests:
+        memory: "2Gi"

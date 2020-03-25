@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  selector:
+    matchLabels:
+      app: some-app
+  template:
+    metadata:
+      labels:
+        app: some-app
+    spec:
+      containers:
+      - name: my-one
+        image: k8s.gcr.io/busybox
+        #command: ["/bin/sh", "-c", "while true; do 'echo MY_ONE'; done"]
+        args:
+        - /bin/sh
+        - c
+        - touch /tmp/healthy; sleep 7; rm -rf /tmp/healthy; sleep 6000
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      - name: my-two
+        image: k8s.gcr.io/busybox
+        #command: ["/bin/sh", "-c", "while true; do 'echo MY_ONE'; done"]
+        args:
+        - /bin/sh
+        - c
+        - touch /tmp/healthy; sleep 6000
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 5      

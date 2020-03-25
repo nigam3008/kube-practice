@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: anything2
+   labels:
+      app: soaktestrs
+      environment: dev
+spec:
+   containers:
+      - name: d1
+        image: busybox
+        command: ['sh', '-c', 'echo The app is running! && sleep 3600000']

@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: probe-test
+spec:
+  containers:
+  - name: liveness-probe
+    image: busybox
+    command: ['sh', '-c', "echo Hello, Kube! && sleep 3600"]
+    livenessProbe:
+      exec:
+        command: 
+          - echo
+          - exec testing under liveness-probe
+      initialDelaySeconds: 5
+      periodSeconds: 5
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rediness-probe-test
+spec:
+  containers:
+  - name: readyness-probe
+    image: nginx
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-liveness-with-failure
+spec:
+  containers:
+  - name: test-liveness-with-failure
+    image: busybox
+    command: ['sh', '-c', "touch /tmp/healthy; sleep 30; rm -ef /temp/healthy; sleep 600"]
+    livenessProbe:
+      exec:
+        command: 
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    
+    
+    

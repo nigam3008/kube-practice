@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metdadata:
+   name: kube-state-metrics
+   labels:
+      app: kube-state-metrics
+      tier: logging
+      
+   

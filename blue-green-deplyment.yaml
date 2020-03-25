@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+   name: snowflake
+   labels:
+      app: snowflake
+spec:
+   replicas: 10
+   template:
+      metadata:
+         labels:
+            name: snowflake
+            app: snowflake
+            role: blue
+      spec:
+         containers:
+            - image: gcr.io/xenon-point-248214/harmonic-edge:v2
+              imagePullPolicy: Always
+              name: snowflake
+   selector:
+      matchLabels:
+        app: snowflake
+   strategy:
+      type: RollingUpdate
+      rollingUpdate: 
+         maxSurge: 50%
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: snowflake
+   labels:
+      app: snowflake
+      role: blue
+spec:
+   selector:
+      app: snowflake
+      role: blue
+   type: LoadBalancer
+   ports:
+      - port: 80
+        targetPort: 8080

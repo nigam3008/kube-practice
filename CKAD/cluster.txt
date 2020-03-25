@@ -1,0 +1,11 @@
+CURRENT   NAME                                                          CLUSTER                                                       AUTHINFO                                                      NAMESPACE
+          gke_pacific-cab-259306_asia-south1-a_gcp-edge1                gke_pacific-cab-259306_asia-south1-a_gcp-edge1                gke_pacific-cab-259306_asia-south1-a_gcp-edge1                
+          gke_pacific-cab-259306_asia-south1-a_har                      gke_pacific-cab-259306_asia-south1-a_har                      gke_pacific-cab-259306_asia-south1-a_har                      
+          gke_pacific-cab-259306_asia-south1-a_harmonic-edge-cluster    gke_pacific-cab-259306_asia-south1-a_harmonic-edge-cluster    gke_pacific-cab-259306_asia-south1-a_harmonic-edge-cluster    
+*         gke_pacific-cab-259306_asia-south1-a_harmonic-edge-cluster1   gke_pacific-cab-259306_asia-south1-a_harmonic-edge-cluster1   gke_pacific-cab-259306_asia-south1-a_harmonic-edge-cluster1   
+          gke_pacific-cab-259306_asia-south1-a_kube-ini                 gke_pacific-cab-259306_asia-south1-a_kube-ini                 gke_pacific-cab-259306_asia-south1-a_kube-ini                 
+          gke_pacific-cab-259306_asia-south1-a_kube-ini2                gke_pacific-cab-259306_asia-south1-a_kube-ini2                gke_pacific-cab-259306_asia-south1-a_kube-ini2                
+          gke_pacific-cab-259306_asia-south1-a_kube1                    gke_pacific-cab-259306_asia-south1-a_kube1                    gke_pacific-cab-259306_asia-south1-a_kube1                    
+          gke_rndgcp_asia-south1-a_rnd-gcp-cluster                      gke_rndgcp_asia-south1-a_rnd-gcp-cluster                      gke_rndgcp_asia-south1-a_rnd-gcp-cluster                      default
+          kubernetes-admin@kubernetes                                   kubernetes                                                    kubernetes-admin                                              default
+          sanoop.yadav-OBSIT-cluster                                    OBSIT-cluster                                                 sanoop.yadav-OBSIT-cluster                                    

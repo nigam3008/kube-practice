@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+   name: development
+   labels: 
+      name: development-NS
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+   name: production
+   labels: 
+      name: production-NS

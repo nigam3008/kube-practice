@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: anything1
+   labels:
+      app: rc1
+      environment: dev 
+spec:
+   containers:
+      - name: d1
+        image: k8s.gcr.io/busybox:1.24
+        command: ['sh', '-c', 'echo The app is running! && sleep 3600000']

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: snowflake
+   labels:
+      app: snowflake
+spec:
+   replicas: 1
+   template:
+      metadata:
+         labels:
+           app: snowflake
+           name: snowflake
+      spec:
+         containers:
+            - name: can-be-xyz
+              image: gcr.io/xenon-point-248214/harmonic-edge:v1
+              imagePullPolicy: Always
+              command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+         initContainers:
+            - name: init-some-service-1
+              image: busybox:1.28
+              command: ['sh', '-c', 'until nslookup init-some-service-1; do echo waiting for init-some-service-1; sleep 2; done;']
+         
+            - name: init-some-service-2
+              image: busybox:1.28
+              command: ['sh', '-c', 'until nslookup init-some-service-2; do echo waiting for init-some-service-2; sleep 2; done;']     
+   selector:
+      matchLabels:
+        app: snowflake

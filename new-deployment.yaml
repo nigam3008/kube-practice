@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment1
+spec:
+  replicas: 3
+  selector:
+    app: d1
+  template:
+    metadata:
+      name: d1
+      labels:
+        app: d1
+    spec:
+      containers:
+      - name: d1
+        image: busybox
+        command: ['sh', '-c', 'echo The app is running! && sleep 3600']

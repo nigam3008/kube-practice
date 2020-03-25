@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: error-pod-cm
+  labels:
+    name: error-pod-cm
+data:
+  alertmanager.yml: |-
+  
+    global:
+      resolve_timeout: 5m
+    
+    route:
+      group_by: ['alertgroupname']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: 'alertmanager-test'
+      
+    receivers:
+    - name: 'alertmanager-test'
+      webhook_configs:
+    - abc: xyz
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restart-deployment
+  labels:
+     app: restart-deployment
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: restart-deployment
+   template:
+      metadata:
+         labels:
+           app: restart-deployment
+      spec:
+        containers:
+         - name: alertmanager
+           image: prom/alertmanager
+           args:
+             - "--config.file=/etc/alertmanager/alertmanager.yml"
+             - '--storage.path=/alertmanager'
+           volumeMounts:
+              - name: error-pod-cm
+                mountPath: /etc/alertmanager/
+              - name: alertmanager
+                mountPath: /alertmanager
+           ports:
+           - containerPort: 9093
+        volumes:
+        - name: alertmanager
+          emptyDir: {}
+        - name: error-pod-cm
+          configMap:
+            name: error-pod-cm
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9121"
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:4
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6379
+      - name: redis-exporter
+        image: oliver006/redis_exporter:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 9121

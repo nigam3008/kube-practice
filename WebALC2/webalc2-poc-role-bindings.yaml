@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: admin-webalc2-poc
+  namespace: webalc2-poc
+  resourceVersion: "62309710"
+  selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/webalc2-poc/rolebindings/admin-webalc2-poc
+  uid: 4e127d80-90d8-11e9-9a6c-fa163ed428c5
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+- kind: ServiceAccount
+  name: webalc2-poc-service
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: pvjd6386
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: brpt1706
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: hjcj1478
